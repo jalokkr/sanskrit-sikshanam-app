@@ -1,7 +1,7 @@
 class PaymentService {
   static async initiatePayment(courseId, amount) {
     try {
-      const response = await fetch("https://your-backend.com/create-order", {
+      const response = await fetch("http://localhost:3001/create-order", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ courseId, amount }),
@@ -9,15 +9,13 @@ class PaymentService {
 
       const result = await response.json();
 
-      if (result && result.id) {
-        // Construct the Razorpay Checkout URL
-        const paymentUrl = `https://your-backend.com/checkout.html?order_id=${result.id}&amount=${result.amount}`;
-        return { success: true, paymentUrl };
+      if (result.success && result.paymentUrl) {
+        return { success: true, paymentUrl: result.paymentUrl };
       } else {
         throw new Error("Order creation failed.");
       }
     } catch (error) {
-      console.error("Razorpay Order Error:", error);
+      console.error("Cashfree Order Error:", error);
       throw error;
     }
   }
