@@ -3,6 +3,7 @@ import { ScrollView, StyleSheet } from "react-native";
 import { Card, Title, Paragraph } from "react-native-paper";
 import EnrolledCourses from "../components/dashboard/EnrolledCourses";
 import LearningStats from "../components/dashboard/LearningStats";
+import LearningAnalytics from "../components/dashboard/LearningAnalytics";
 
 const HomeScreen = ({ navigation }) => {
   return (
@@ -17,6 +18,8 @@ const HomeScreen = ({ navigation }) => {
 
       {/* Learning Statistics */}
       <LearningStats />
+
+      <LearningAnalytics />
 
       {/* Current Course Progress */}
       <EnrolledCourses navigation={navigation} />
