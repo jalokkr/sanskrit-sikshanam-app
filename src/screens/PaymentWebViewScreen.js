@@ -1,15 +1,24 @@
 import React from "react";
 import { WebView } from "react-native-webview";
+import { Alert } from "react-native";
 
 const PaymentWebViewScreen = ({ route, navigation }) => {
-  const { paymentUrl } = route.params;
+  const { paymentUrl, courseId } = route.params;
 
   const handleNavigation = (navState) => {
-    if (navState.url.includes("payment-success")) {
-      navigation.goBack(); // Close WebView
-      // You can also trigger a course access update here
-    } else if (navState.url.includes("payment-failed")) {
-      navigation.goBack(); // Optionally show an error
+    const { url } = navState;
+
+    if (url.includes("payment-result")) {
+      const status = new URL(url).searchParams.get("order_status");
+
+      if (status === "PAID") {
+        Alert.alert("Payment Successful", "Access granted.");
+        navigation.goBack();
+        // You can trigger backend course unlock here
+      } else {
+        Alert.alert("Payment Failed", "Please try again.");
+        navigation.goBack();
+      }
     }
   };
 
