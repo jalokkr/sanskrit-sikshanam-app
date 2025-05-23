@@ -3,6 +3,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { MaterialIcons } from "@expo/vector-icons";
+import { View, ActivityIndicator } from "react-native";
 
 // Auth Screens
 import LoginScreen from "../screens/auth/LoginScreen";
@@ -19,6 +20,7 @@ import VideoPlayerScreen from "../screens/VideoPlayerScreen";
 import QuizScreen from "../screens/QuizScreen";
 import PaymentScreen from "../screens/PaymentScreen";
 import CertificateScreen from "../screens/CertificateScreen";
+import { useAuth } from "../context/AuthContext";
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -29,7 +31,7 @@ const AuthStack = () => {
     <Stack.Navigator
       screenOptions={{
         headerStyle: {
-          backgroundColor: "#6200ee",
+          backgroundColor: "#F1BD56",
         },
         headerTintColor: "#fff",
         headerTitleStyle: {
@@ -62,7 +64,7 @@ const CourseStack = () => {
     <Stack.Navigator
       screenOptions={{
         headerStyle: {
-          backgroundColor: "#6200ee",
+          backgroundColor: "#F1BD56",
         },
         headerTintColor: "#fff",
         headerTitleStyle: {
@@ -118,16 +120,25 @@ const TabNavigator = () => {
           paddingBottom: 5,
           paddingTop: 5,
           height: 60,
+          position: "absolute",
+          bottom: 0,
+          left: 0,
+          right: 0,
+          elevation: 0,
+          safeAreaInsets: { bottom: 10 },
         },
-        tabBarActiveTintColor: "#6200ee",
+        tabBarActiveTintColor: "#F1BD56",
         tabBarInactiveTintColor: "#757575",
         headerStyle: {
-          backgroundColor: "#6200ee",
+          backgroundColor: "#F1BD56",
         },
         headerTintColor: "#fff",
         headerTitleStyle: {
           fontWeight: "bold",
         },
+        // contentStyle: {
+        //   height: 90 // Adjust this value based on your tab bar height
+        // },
       }}
     >
       <Tab.Screen
@@ -174,7 +185,16 @@ const TabNavigator = () => {
 
 // Main App Navigator
 const AppNavigator = () => {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isAuthenticated, setIsAuthenticated] = useState(true);
+  const { isLoggedIn, loading } = useAuth();
+
+  if (loading) {
+    return (
+      <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+        <ActivityIndicator size="large" color="#F1BD56" />
+      </View>
+    );
+  }
 
   return (
     <NavigationContainer>
@@ -183,10 +203,16 @@ const AppNavigator = () => {
           headerShown: false,
         }}
       >
-        {!isAuthenticated ? (
-          <Stack.Screen name="Auth" component={AuthStack} />
+        {!isLoggedIn ? (
+          <Stack.Screen
+            name="Auth"
+            component={AuthStack}
+            // options={{
+            //   animationTypeForReplace: isLoggedIn ? "push" : "pop",
+            // }}
+          />
         ) : (
-          <Stack.Screen name="Main" component={TabNavigator} />
+          <Stack.Screen name="TabNavigator" component={TabNavigator} />
         )}
       </Stack.Navigator>
     </NavigationContainer>
