@@ -14,10 +14,14 @@
     "@react-navigation/bottom-tabs": "^7.3.13",
     "@react-navigation/native": "^7.1.9",
     "@react-navigation/stack": "^7.3.2",
+    "axios": "^1.9.0",
     "expo": "~53.0.9",
+    "expo-audio": "~0.4.5",
     "expo-av": "^15.1.4",
     "expo-file-system": "^18.1.10",
     "expo-status-bar": "~2.2.3",
+    "expo-video": "~2.1.9",
+    "lodash": "^4.17.21",
     "react": "19.0.0",
     "react-native": "0.79.2",
     "react-native-paper": "^5.14.4",
@@ -29,5 +33,16 @@
   "devDependencies": {
     "@babel/core": "^7.20.0"
   },
-  "private": true
+  "expo": {
+    "doctor": {
+      "reactNativeDirectoryCheck": {
+        "exclude": [
+          "lodash",
+          "react-native-vector-icons"
+        ]
+      }
+    }
+  },
+  "private": true,
+  "packageManager": "yarn@1.22.19+sha512.ff4579ab459bb25aa7c0ff75b62acebe576f6084b36aa842971cf250a5d8c6cd3bc9420b22ce63c7f93a0857bc6ef29291db39c3e7a23aab5adfd5a4dd6c5d71"
 }
