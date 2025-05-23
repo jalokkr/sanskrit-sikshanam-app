@@ -1,66 +1,84 @@
 import React, { useState } from "react";
-import { View, StyleSheet, TouchableOpacity } from "react-native";
-import { TextInput, Button, Title, Text } from "react-native-paper";
+import { View, StyleSheet, TouchableOpacity, Image } from "react-native";
+import { TextInput, Button, Text, useTheme } from "react-native-paper";
 
 const RegisterScreen = ({ navigation }) => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const theme = useTheme();
 
   const handleRegister = () => {
-    // Implement registration logic here
+    // Register logic here
   };
 
   return (
     <View style={styles.container}>
-      <Title style={styles.title}>Create Account</Title>
-
+      <Image source={require("../../../assets/logo.png")} style={styles.logo} />
       <TextInput
         label="Full Name"
         value={name}
         onChangeText={setName}
         mode="outlined"
+        left={<TextInput.Icon icon="account" />}
         style={styles.input}
       />
-
       <TextInput
         label="Email"
         value={email}
         onChangeText={setEmail}
         mode="outlined"
-        style={styles.input}
         keyboardType="email-address"
         autoCapitalize="none"
+        left={<TextInput.Icon icon="email" />}
+        style={styles.input}
       />
-
       <TextInput
         label="Password"
         value={password}
         onChangeText={setPassword}
         mode="outlined"
+        secureTextEntry={!showPassword}
+        left={<TextInput.Icon icon="lock" />}
+        right={
+          <TextInput.Icon
+            icon={showPassword ? "eye-off" : "eye"}
+            onPress={() => setShowPassword(!showPassword)}
+          />
+        }
         style={styles.input}
-        secureTextEntry
       />
-
       <TextInput
         label="Confirm Password"
         value={confirmPassword}
         onChangeText={setConfirmPassword}
         mode="outlined"
+        secureTextEntry={!showConfirmPassword}
+        left={<TextInput.Icon icon="lock-check" />}
+        right={
+          <TextInput.Icon
+            icon={showConfirmPassword ? "eye-off" : "eye"}
+            onPress={() => setShowConfirmPassword(!showConfirmPassword)}
+          />
+        }
         style={styles.input}
-        secureTextEntry
       />
-
-      <Button mode="contained" onPress={handleRegister} style={styles.button}>
+      <Button
+        mode="contained"
+        onPress={handleRegister}
+        style={[styles.button, { backgroundColor: "#F1BD56" }]}
+        icon="account-plus"
+      >
         Register
       </Button>
-
       <TouchableOpacity
         onPress={() => navigation.navigate("Login")}
         style={styles.linkButton}
       >
-        <Text>Already have an account? Login</Text>
+        <Text style={styles.linkText}>Already have an account? Login</Text>
       </TouchableOpacity>
     </View>
   );
@@ -69,24 +87,32 @@ const RegisterScreen = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 20,
+    padding: 24,
     justifyContent: "center",
     backgroundColor: "#fff",
   },
-  title: {
-    fontSize: 24,
-    marginBottom: 24,
-    textAlign: "center",
+  logo: {
+    width: 150,
+    height: 150,
+    alignSelf: "center",
+    marginBottom: 40,
+    borderRadius: 20,
   },
   input: {
     marginBottom: 16,
+    backgroundColor: "#f9f9f9",
   },
   button: {
     marginTop: 8,
+    paddingVertical: 6,
+    borderRadius: 8,
   },
   linkButton: {
-    marginTop: 16,
+    marginTop: 12,
     alignItems: "center",
+  },
+  linkText: {
+    color: "#777",
   },
 });
 
